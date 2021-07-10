@@ -38,3 +38,27 @@ To access the deployed application we can simply use port-forwarding by issuing 
 ```shell
 kubectl port-forward svc/traceable 8080:80
 ```
+
+# Observability
+
+## Logging
+
+To run an instance of Grafana Loki, including Promtail (to scrape the logs) and a Grafana frontend (to access the logs),
+issue the following command in the terminal:
+
+```shell
+helm repo add grafana https://grafana.github.io/helm-charts
+helm install traceable-logging grafana/loki-stack --set grafana.enabled=true
+```
+
+The grafana frontend will generate its own secret for the authentication, and it can be retrieved by running:
+
+```shell
+kubectl get secret traceable-logging-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+```
+
+Then we can finally access the frontend by port-forwarding:
+
+```shell
+kubectl port-forward svc/traceable-logging-grafana 3000:80
+```
