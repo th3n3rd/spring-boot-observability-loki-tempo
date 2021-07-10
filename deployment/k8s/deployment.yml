@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traceable
+  labels:
+    app.kubernetes.io/name: traceable
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: traceable
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: traceable
+    spec:
+      containers:
+        - image: traceable:0.0.1-SNAPSHOT
+          name: traceable
+          envFrom:
+            - configMapRef:
+                name: traceable-config
+          readinessProbe:
+            httpGet:
+              port: 8081
+              path: /actuator/health/readiness
+            initialDelaySeconds: 20
+          livenessProbe:
+            httpGet:
+              port: 8081
+              path: /actuator/health/liveness
+            initialDelaySeconds: 20
+          resources: {}
