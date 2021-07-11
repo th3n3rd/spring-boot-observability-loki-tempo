@@ -5,6 +5,7 @@ import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import org.springframework.web.filter.CommonsRequestLoggingFilter
 
 @SpringBootApplication
 class DemoApplication {
@@ -23,6 +24,15 @@ class DemoApplication {
 				publisher = bookGenerator.publisher()
 			))
 		}
+	}
+
+	@Bean
+	fun requestLoggingFilter(): CommonsRequestLoggingFilter {
+		val filter = CommonsRequestLoggingFilter()
+		filter.setIncludeHeaders(true)
+		filter.setIncludeQueryString(true)
+		filter.setIncludeClientInfo(true)
+		return filter
 	}
 }
 

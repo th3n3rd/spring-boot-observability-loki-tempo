@@ -11,3 +11,4 @@ data:
   spring.application.name: "traceable"
   spring.data.mongodb.host: traceable-db-mongodb
   spring.data.mongodb.port: "27017"
+  logging.level.org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
