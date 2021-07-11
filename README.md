@@ -62,3 +62,21 @@ Then we can finally access the frontend by port-forwarding:
 ```shell
 kubectl port-forward svc/traceable-logging-grafana 3000:80
 ```
+
+## Tracing
+
+To run an instance of Grafana Tempo, create a yaml file names `tempo-values.yml` with the following content:
+
+```shell
+tempo:
+  receivers:
+    zipkin:
+      endpoint: 0.0.0.0:9411
+```
+
+issue the following command in the terminal:
+
+```shell
+helm repo add grafana https://grafana.github.io/helm-charts
+helm install traceable-tracing grafana/tempo -f tempo-values.yml
+```
